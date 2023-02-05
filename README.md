@@ -11,16 +11,14 @@ Sección User: La pantalla Perfil mostrará la información relativa al usuario 
 
 Home Sección
 
--En la pantalla home se recogen todos las rutinas hechas por los usuarios, clickeando en ellas se verán los ejercicios y las repeticiones de cada ejercicio
-
-
+-En la pantalla home se recogen todos las rutinas hechas por los usuarios, clickeando en ellas se verán los ejercicios y [las repeticiones de cada ejercicio](FUTURO)
 
 Add Sección
 
--En la primera pantalla de esta sección se pueden ver todas las rutinas creadas por el usuario (FUTURO), junto a un botón crear rutina 
+- En la primera pantalla de esta sección se pueden ver todas las rutinas creadas por el usuario (FUTURO), junto a un botón crear rutina 
 
 - Al clickear en una rutina conectará con la pantalla de visualización de ejercicios que también aparece en el home
 
--Al crear una rutina se nos pedirá, un título, si la rutina es pública o privada(Si se mostrara en el home a los demas usuarios o no) y añadir ejercicios
+- Al crear una rutina se nos pedirá, un título, si la rutina es pública o privada(Si se mostrara en el home a los demas usuarios o no) y añadir ejercicios
 
--Añadir ejercicios, permitirá clickear un ejercicio y el número de repeticiones que se van a realizar
+- Añadir ejercicios, permitirá clickear un ejercicio y el número de repeticiones que se van a realizar
