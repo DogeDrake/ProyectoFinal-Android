@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lelegray"
+    tools:context="fragmets.AddEjerciciosFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:gravity="center"
+        android:textColor="@color/White"
+        android:text="Ejercicios"
+        android:textSize="30dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RVlistaEjercicios"
+        android:layout_width="match_parent"
+        android:layout_height="423dp"
+        android:layout_marginTop="50dp" />
+
+    <SeekBar
+        android:id="@+id/NumeroRepeticionesSeekBar"
+        android:layout_width="307dp"
+        android:layout_height="42dp"
+        android:max="100"
+        android:min="0"
+        android:progress="10"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="150dp" />
+    <TextView
+        android:textSize="30sp"
+        android:text="10"
+        android:layout_marginRight="20dp"
+        android:id="@+id/TVRepeticioines"
+        android:layout_gravity="bottom|right"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/AñadirEjercicioARutina"
+        android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="100dp"
+        android:text="Añadir" />
+</FrameLayout>

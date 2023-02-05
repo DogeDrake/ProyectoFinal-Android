@@ -1,0 +1,196 @@
+{
+  "data": [
+    {
+      "name": "Servir Bandejas",
+      "surname": "Paco",
+      "exer": [
+        {
+          "nombre": "push upsPaco",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Recoger Patatas",
+      "surname": "Manolo",
+      "exer": [
+        {
+          "nombre": "push upsManolo",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Rutina Bikini",
+      "surname": "Juan Carlos",
+      "exer": [
+        {
+          "nombre": "push upsJuan Carlos",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Tarde de cazar dragones",
+      "surname": "Gerardo de rivia",
+      "exer": [
+        {
+          "nombre": "push upsGerardo de rivia",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Un Solo Ojo",
+      "surname": "Zoro Ronoa",
+      "exer": [
+        {
+          "nombre": "push upsZoro Ronoa\"",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Rutina ir a la compra",
+      "surname": "Saitama",
+      "exer": [
+        {
+          "nombre": "correr",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "correr",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "correr",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "correr",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "correr",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "correr",
+          "repeticiones": "20"
+        }
+      ]
+    },
+    {
+      "name": "Correr + Dominadas",
+      "surname": "Jose Alfonso",
+      "exer": [
+        {
+          "nombre": "push upsJose Alfonso",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "HoodieRutina",
+      "surname": "Guillermo Vallejo Lopez",
+      "exer": [
+        {
+          "nombre": "push upsLopez",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Push ups antes de entrenar",
+      "surname": "Miguel",
+      "exer": [
+        {
+          "nombre": "push upsMiguel",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    },
+    {
+      "name": "Bajar Peso",
+      "surname": "Alfonso",
+      "exer": [
+        {
+          "nombre": "push upsAlfonso",
+          "repeticiones": "20"
+        },
+        {
+          "nombre": "squats",
+          "repeticiones": "15"
+        },
+        {
+          "nombre": "deadlifts",
+          "repeticiones": "10"
+        }
+      ]
+    }
+  ]
+}
