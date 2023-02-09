@@ -7,7 +7,7 @@
     <item android:title="Home"
         android:icon="@drawable/ic_baseline_fitness_center_24"
         android:id="@+id/homemenu"/>
-    <item android:title="Add"
+    <item android:title="Mis Rutinas"
         android:icon="@drawable/ic_baseline_add_box_24"
         android:id="@+id/addmenu"/>
 </menu>

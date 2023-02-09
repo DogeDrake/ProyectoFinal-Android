@@ -1,5 +1,6 @@
 package fragmets
 
+import Adapters.UserEditAdapter
 import Adapters.UserInfoAdapter
 import android.os.Bundle
 import android.util.Log
@@ -7,18 +8,18 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidad3_a.R
 
 
-class UserFragment : Fragment() {
+class UserEditFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false)
+        return inflater.inflate(R.layout.fragment_user_edit, container, false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -44,8 +45,6 @@ class UserFragment : Fragment() {
     private fun set() {
         Log.d(tag, "Settings Clicked")
         Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.container, UserEditFragment())?.addToBackStack(null)?.commit()
     }
 
     private fun delete() {
@@ -65,8 +64,8 @@ class UserFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = "Perfil De Usuario"
 
         var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
-        rvUserInfo.layoutManager = GridLayoutManager(context, 2)
-        rvUserInfo.adapter = UserInfoAdapter()
+        rvUserInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rvUserInfo.adapter = UserEditAdapter()
 
     }
 }
