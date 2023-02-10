@@ -70,7 +70,6 @@ class LoginFragment : Fragment() {
                 } else {
                     view.findViewById<TextView>(R.id.txtError).text = "CORREO INEXISTENTE"
                 }
-
             }
         }
         view.findViewById<Button>(R.id.btIrRegistro).setOnClickListener {
