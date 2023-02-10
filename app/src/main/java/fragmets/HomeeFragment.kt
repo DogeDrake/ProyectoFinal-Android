@@ -23,7 +23,7 @@ import java.io.InputStreamReader
 class HomeeFragment : Fragment() {
 
     private lateinit var adapter: MainAdapter
-
+    var id_Usuario = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +58,8 @@ class HomeeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val id = arguments?.getString("idUsuario")
+        Log.i("MainActivity", id.toString())
         (activity as? AppCompatActivity)?.supportActionBar?.title = "Pagina Principal"
         val json = readJsonFromFile("users.json")
         val users = Gson().fromJson(json, user::class.java)

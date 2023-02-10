@@ -22,8 +22,8 @@ import retrofit2.Response
 class LoginFragment : Fragment() {
     val TAG = "MainActivity"
     var datos: ArrayList<UserResponse.Data> = ArrayList()
-
-
+    val username = mutableListOf<String>()
+    var idUser = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -39,19 +39,38 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
+        ApiRest.initService()
+        getUsers()
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.isVisible = false
         view.findViewById<Button>(R.id.btIrHome).setOnClickListener {
-            ApiRest.initService()
-            getUsers()
-
-
             var correo = view.findViewById<EditText>(R.id.txtCorreoLogIn).text
-            if (correo.toString() == "" || (view.findViewById<EditText>(R.id.txtContraseñaLogIn).text.toString()) == "") {
+            var contasena = view.findViewById<EditText>(R.id.txtContraseñaLogIn).text
+            if (correo.toString() == "" || (contasena.toString()) == "") {
                 view.findViewById<TextView>(R.id.txtError).text = "RELLENE TODOS LOS CAMPOS"
             } else {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.container, HomeeFragment())?.commit()
-                (activity as? AppCompatActivity)?.supportActionBar?.show()
+                if (correo.toString() in username) {
+                    val indexUser = username.indexOf(correo.toString())
+                    Log.d(TAG, username[indexUser + 1])
+                    if ((contasena.toString()).equals(username[indexUser + 1])) {
+                        idUser = username[indexUser+2]
+                        activity?.let {
+                            val fragment = HomeeFragment()
+                            Log.d(TAG, idUser)
+                            fragment.arguments = Bundle().apply {
+                                putString("idUsuario",idUser)
+                            }
+                            it?.supportFragmentManager?.beginTransaction()
+                                ?.replace(R.id.container, fragment)?.commit()
+                            (activity as? AppCompatActivity)?.supportActionBar?.show()
+                        }
+
+                    } else {
+                        view.findViewById<TextView>(R.id.txtError).text = "CONTRASEÑA INCORRECTA"
+                    }
+                } else {
+                    view.findViewById<TextView>(R.id.txtError).text = "CORREO INEXISTENTE"
+                }
+
             }
         }
         view.findViewById<Button>(R.id.btIrRegistro).setOnClickListener {
@@ -79,13 +98,20 @@ class LoginFragment : Fragment() {
                     Log.i(TAG, body.toString())
                     datos.clear()
                     datos.addAll(body.data)
-                    Log.d(TAG,datos.toString())
+                    for (a in datos) {
+                        Log.i(TAG, "entroooo!!!!")
+                        username.add(a.attributes.email)
+                        username.add(a.attributes.contrasena)
+                        username.add(a.id.toString())
+                    }
 
-                // Imprimir aqui el listado con logs
+                    Log.d(TAG, username.toString())
+                    // Imprimir aqui el listado con logs
                 } else {
-                    Log.e(TAG, response.errorBody()?.string()?:"Porto")
+                    Log.e(TAG, response.errorBody()?.string() ?: "Porto")
                 }
             }
+
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 Log.e(TAG, t.message.toString())
             }
