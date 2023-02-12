@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recycleviewdemo1.HomeDatosAdapter
 import com.example.recycleviewdemo1.MainAdapter
 import com.example.unidad3_a.R
+import com.example.unidad3_a.RutinaPopulateResponse
 
 private lateinit var adapter2: HomeDatosAdapter
 
@@ -32,13 +33,13 @@ class HomeDetailFragment : Fragment() {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
                 arguments?.getSerializable(
                     "usuarios", //Key del Serializable de la clase AgentFragment
-                    user.Data::class.java
-                ) as? user.Data
+                    RutinaPopulateResponse.Data::class.java
+                ) as? RutinaPopulateResponse.Data
             } else {
-                arguments?.getSerializable("usuarios") as? user.Data
+                arguments?.getSerializable("usuarios") as?  RutinaPopulateResponse.Data
             }
 
-        adapter2 = HomeDatosAdapter(usuario!!.exer) {
+        adapter2 = HomeDatosAdapter(usuario!!.attributes.ejercicios.data) {
         }
 
         val mainRecyclerView2 = view?.findViewById<RecyclerView>(R.id.recogidaDatos)
@@ -47,6 +48,6 @@ class HomeDetailFragment : Fragment() {
 
         mainRecyclerView2?.adapter = adapter2
 
-        (activity as? AppCompatActivity)?.supportActionBar?.title = usuario?.name
+        (activity as? AppCompatActivity)?.supportActionBar?.title = usuario.attributes.titulorutina
     }
 }

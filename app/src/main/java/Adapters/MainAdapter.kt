@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidad3_a.R
+import com.example.unidad3_a.RutinaPopulateResponse
 import com.example.unidad3_a.UserRutinasResponse
 
 
 class MainAdapter(
-    private val mDataSet: List<UserRutinasResponse.Data>,
-    val OnClick: (UserRutinasResponse.Data) -> Unit
+    private val mDataSet: List<RutinaPopulateResponse.Data>,
+    val OnClick: (RutinaPopulateResponse.Data) -> Unit
 ) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -35,7 +36,7 @@ class MainAdapter(
     inner class MainViewHolder(var v: View) : RecyclerView.ViewHolder(v) {
         val mytexto = v.findViewById<TextView>(R.id.tvTitulo)
         val mydesc = v.findViewById<TextView>(R.id.tvDescrp)
-        fun bindItems(data: UserRutinasResponse.Data) {
+        fun bindItems(data: RutinaPopulateResponse.Data) {
             mytexto.text = data.attributes.titulorutina
             mydesc.text = data.id.toString()
         }

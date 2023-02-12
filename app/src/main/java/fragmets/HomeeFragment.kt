@@ -13,6 +13,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.recycleviewdemo1.MainAdapter
 import com.example.unidad3_a.ApiRest
+import com.example.unidad3_a.RutinaPopulateResponse
 import com.example.unidad3_a.UserRutinasResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,33 +25,13 @@ class HomeeFragment : Fragment() {
     private lateinit var adapter: MainAdapter
     var id_Usuario = ""
     val TAG = "MainActivity"
-    var datos: ArrayList<UserRutinasResponse.Data> = ArrayList()
+    var datos: ArrayList<RutinaPopulateResponse.Data> = ArrayList()
     val InfoRutinas = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    /*
-        private fun readJsonFromFile(fileName: String): String {
-            var json = ""
-            try {
-                val bufferedReader = BufferedReader(
-                    InputStreamReader(context?.assets?.open(fileName))
-                )
-                val paramsBuilder = StringBuilder()
-                var line: String? = bufferedReader.readLine()
-                while (line != null) {
-                    paramsBuilder.append(line)
-                    line = bufferedReader.readLine()
-                }
-                json = paramsBuilder.toString()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            return json
-        }
-    */
     override fun onCreateView(
 
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,15 +43,10 @@ class HomeeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getUserRutines()
+        getUserRutinesPopualte()
         val id = arguments?.getString("idUsuario")
         Log.i("MainActivity", id.toString())
         (activity as? AppCompatActivity)?.supportActionBar?.title = "Pagina Principal"
-
-        /*
-        val json = readJsonFromFile("users.json")
-        val users = Gson().fromJson(json, user::class.java)
-        */
 
         adapter = MainAdapter(datos) { agent ->
             // var agentobj = it //llama al objeto que clickeas (item AgenteAdapter)
@@ -93,12 +69,12 @@ class HomeeFragment : Fragment() {
 
     }
 
-    private fun getUserRutines() {
-        val call = ApiRest.service.getUserRutines()
-        call.enqueue(object : Callback<UserRutinasResponse> {
+    private fun getUserRutinesPopualte() {
+        val call = ApiRest.service.getUserRutinesPopualte()
+        call.enqueue(object : Callback<RutinaPopulateResponse> {
             override fun onResponse(
-                call: Call<UserRutinasResponse>,
-                response: Response<UserRutinasResponse>
+                call: Call<RutinaPopulateResponse>,
+                response: Response<RutinaPopulateResponse>
             ) {
                 val body = response.body()
                 if (response.isSuccessful && body != null) {
@@ -120,19 +96,12 @@ class HomeeFragment : Fragment() {
             }
 
             override fun onFailure(
-                call: Call<UserRutinasResponse>,
+                call: Call<RutinaPopulateResponse>,
                 t: Throwable
             ) {
                 Log.e(TAG, t.message.toString())
-
-
             }
-
-
         })
-
     }
-
-
 }
 

@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidad3_a.R
+import com.example.unidad3_a.RutinaPopulateResponse
 
 
-
-class HomeDatosAdapter(private val mDataSet: List<user.Data.Ejercicios>, val OnClick: (user.Data.Ejercicios) -> Unit) :
+class HomeDatosAdapter(private val mDataSet: List<RutinaPopulateResponse.Data.Attributes.Ejercicios.Data>, val OnClick: (RutinaPopulateResponse.Data.Attributes.Ejercicios.Data) -> Unit) :
     RecyclerView.Adapter<HomeDatosAdapter.MainViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.ejercicios, parent, false)
@@ -34,9 +34,8 @@ class HomeDatosAdapter(private val mDataSet: List<user.Data.Ejercicios>, val OnC
     inner class MainViewHolder(var v: View) : RecyclerView.ViewHolder(v) {
         val mytexto = v.findViewById<TextView>(R.id.NameEjercicio)
         val mydesc = v.findViewById<TextView>(R.id.RepeticionesTV)
-        fun bindItems(data: user.Data.Ejercicios) {
-            mytexto.text = data.nombre
-            mydesc.text = data.repeticiones
+        fun bindItems(data: RutinaPopulateResponse.Data.Attributes.Ejercicios.Data) {
+            mytexto.text = data.attributes.ejercicionombre
         }
     }
 }

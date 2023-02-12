@@ -13,8 +13,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.unidad3_a.DatosCompuestos
-import com.example.unidad3_a.R
+import com.example.recycleviewdemo1.MainAdapter
+import com.example.unidad3_a.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 //DEEP3
 class AddEjerciciosFragment : Fragment() {
@@ -24,27 +27,11 @@ class AddEjerciciosFragment : Fragment() {
     var nombreEj: String = ""
 
 
-    var demoNames = listOf(
-        "Jamey Bush",
-        "Casandra Red",
-        "Melvin Detrick",
-        "Mirella Jiggetts",
-        "Brook Hetzel",
-        "Eva Mccrystal",
-        "Glennie Hiott",
-        "Alverta Ruggles",
-        "Floria Pedroza",
-        "Marianela Redman",
-        "Colby Bellew",
-        "Marquerite Kite",
-        "Marcelene Rhoads",
-        "Taneka Burgin",
-        "Marci Smits",
-        "Michelle Madero",
-        "Pinkie Josey",
-        "Marlys Nieman",
-        "Ling Reddick"
-    )
+    private lateinit var adapter: ListaEjerciciosAdapter
+    val TAG = "MainActivity"
+    var datos: ArrayList<EjerciciosResponse.Data> = ArrayList()
+    val InfoRutinas = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,23 +47,26 @@ class AddEjerciciosFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        getEjercicios()
         var startPoint = 0
         var endPoint = 0
         super.onViewCreated(view, savedInstanceState)
         var RVEjerciciois = view.findViewById<RecyclerView>(R.id.RVlistaEjercicios)
-        val mAdapter =
-            ListaEjerciciosAdapter(demoNames) {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                nombreEj = it
-                Log.v("miapp", it)
+
+        adapter =
+            ListaEjerciciosAdapter(datos) {
+                //Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                nombreEj = datos.toString()
+                //Log.v("miapp", it)
             }
         RVEjerciciois.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.VERTICAL,
             false
         )
-        RVEjerciciois.adapter = mAdapter
+        RVEjerciciois.adapter = adapter
+
+
 
         var barras = view.findViewById<SeekBar>(R.id.NumeroRepeticionesSeekBar)
         var numResp = view.findViewById<TextView>(R.id.TVRepeticioines)
@@ -91,7 +81,6 @@ class AddEjerciciosFragment : Fragment() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 if (seekBar != null) {
                     startPoint = seekBar.progress
-
                 }
             }
 
@@ -100,7 +89,6 @@ class AddEjerciciosFragment : Fragment() {
                     endPoint = seekBar.progress
                 }
             }
-
         })
 
 
@@ -124,6 +112,41 @@ class AddEjerciciosFragment : Fragment() {
                  */
             }
         }
+    }
+
+    private fun getEjercicios() {
+        val call = ApiRest.service.getEjercicios()
+        call.enqueue(object : Callback<EjerciciosResponse> {
+            override fun onResponse(
+                call: Call<EjerciciosResponse>,
+                response: Response<EjerciciosResponse>
+            ) {
+                val body = response.body()
+                if (response.isSuccessful && body != null) {
+                    Log.i(TAG, body.toString())
+                    datos.clear()
+                    datos.addAll(body.data)
+                    Log.i(TAG, datos.toString())
+                    for (a in datos) {
+                        Log.i(TAG, "entroooo!!!!")
+                        //InfoRutinas.add(a.attributes.titulorutina)
+                        //InfoRutinas.add(a.attributes.publishedAt)
+                    }
+                    adapter?.notifyDataSetChanged()
+                    Log.d(TAG, InfoRutinas.toString())
+                    // Imprimir aqui el listado con logs
+                } else {
+                    Log.e(TAG, response.errorBody()?.string() ?: "Porto")
+                }
+            }
+
+            override fun onFailure(
+                call: Call<EjerciciosResponse>,
+                t: Throwable
+            ) {
+                Log.e(TAG, t.message.toString())
+            }
+        })
     }
 
 
