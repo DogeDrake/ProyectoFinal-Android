@@ -101,6 +101,7 @@ class LoginFragment : Fragment() {
                     Log.i(TAG, body.toString())
                     datos.clear()
                     datos.addAll(body.data)
+
                     for (a in datos) {
                         Log.i(TAG, "entroooo!!!!")
                         username.add(a.attributes.email)

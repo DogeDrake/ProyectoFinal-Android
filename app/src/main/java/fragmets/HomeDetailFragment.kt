@@ -14,9 +14,10 @@ import com.example.recycleviewdemo1.MainAdapter
 import com.example.unidad3_a.R
 import com.example.unidad3_a.RutinaPopulateResponse
 
-private lateinit var adapter2: HomeDatosAdapter
+
 
 class HomeDetailFragment : Fragment() {
+    private lateinit var adapter2: HomeDatosAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

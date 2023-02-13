@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.unidad3_a.*
+import com.example.unidad3_a.ApiRest
+import com.example.unidad3_a.R
+import com.example.unidad3_a.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,8 +20,7 @@ import retrofit2.Response
 
 class UserFragment : Fragment() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user, container, false)
@@ -76,6 +77,28 @@ class UserFragment : Fragment() {
         val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val value = sharedPreferences?.getString("user", "-1")
 
+
+    }
+
+    private fun getUser(id: Int) {
+
+        val call = ApiRest.service.getUser(id)
+        call.enqueue(object : Callback<UserResponse.Data> {
+            override fun onResponse(
+                call: Call<UserResponse.Data>,
+                response: Response<UserResponse.Data>
+            ) {
+                val body = response.body()
+                if (response.isSuccessful && body != null) {
+                    body.attributes
+
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse.Data>, t: Throwable) {
+
+            }
+        })
 
     }
 }
