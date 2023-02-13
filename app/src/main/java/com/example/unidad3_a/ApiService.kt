@@ -20,7 +20,7 @@ interface ApiService {
     @GET("rutinas2?populate=*")
     fun getUserRutinesPopualte(
     ): Call<RutinaPopulateResponse>
-
+//potater
     @GET("ejercicios2")
     fun getEjercicios(
     ): Call<EjerciciosResponse>
