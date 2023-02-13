@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.unidad3_a.R
+import com.example.unidad3_a.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class UserFragment : Fragment() {
@@ -68,8 +71,11 @@ class UserFragment : Fragment() {
         var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
         rvUserInfo.layoutManager = GridLayoutManager(context, 2)
         rvUserInfo.adapter = UserInfoAdapter()
+
         //Copiar esto para recibir id del usuario desde cualquier fragment
         val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val value = sharedPreferences?.getString("user", "-1")
+
+
     }
 }
