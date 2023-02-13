@@ -68,7 +68,8 @@ class UserFragment : Fragment() {
         var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
         rvUserInfo.layoutManager = GridLayoutManager(context, 2)
         rvUserInfo.adapter = UserInfoAdapter()
+        //Copiar esto para recibir id del usuario desde cualquier fragment
         val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        val value = sharedPreferences?.getString("user", "0")
+        val value = sharedPreferences?.getString("user", "-1")
     }
 }
