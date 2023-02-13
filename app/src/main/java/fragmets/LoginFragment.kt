@@ -1,8 +1,8 @@
 package fragmets
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.example.unidad3_a.ApiRest
 import com.example.unidad3_a.R
 import com.example.unidad3_a.UserResponse
@@ -52,12 +53,15 @@ class LoginFragment : Fragment() {
                     val indexUser = username.indexOf(correo.toString())
                     Log.d(TAG, username[indexUser + 1])
                     if ((contasena.toString()).equals(username[indexUser + 1])) {
-                        idUser = username[indexUser+2]
+                        idUser = username[indexUser + 2]
+                        val sharedPreferences =
+                            context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                        sharedPreferences!!.edit().putString("user", idUser).apply()
                         activity?.let {
                             val fragment = HomeeFragment()
                             Log.d(TAG, idUser)
                             fragment.arguments = Bundle().apply {
-                                putString("idUsuario",idUser)
+                                putString("idUsuario", idUser)
                             }
                             it?.supportFragmentManager?.beginTransaction()
                                 ?.replace(R.id.container, fragment)?.commit()

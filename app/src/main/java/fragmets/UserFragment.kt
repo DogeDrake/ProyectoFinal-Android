@@ -1,6 +1,7 @@
 package fragmets
 
 import Adapters.UserInfoAdapter
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -67,6 +68,7 @@ class UserFragment : Fragment() {
         var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
         rvUserInfo.layoutManager = GridLayoutManager(context, 2)
         rvUserInfo.adapter = UserInfoAdapter()
-
+        val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val value = sharedPreferences?.getString("user", "0")
     }
 }
