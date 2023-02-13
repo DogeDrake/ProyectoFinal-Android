@@ -7,9 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidad3_a.R
+import com.example.unidad3_a.RutinaPopulateResponse
+import com.example.unidad3_a.UserResponse
 
 class UserInfoAdapter(
-    // private val data: ArrayList<AgentsResponse.Agent>, val OnClick: (AgentsResponse.Agent) -> Unit
+    private val data: ArrayList<UserResponse.Data>, val OnClick: (UserResponse.Data) -> Unit
 ) : RecyclerView.Adapter<UserInfoAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -36,21 +38,26 @@ class UserInfoAdapter(
             txtInfoTitle.text = "EDAD"
         }
 
-        //  holder.bind(data[position])
+        val userData = data[position]
+        userData.let {
+            holder.bindItems(userData)
+        }
+
+        holder.itemView.setOnClickListener {
+            OnClick(userData)
+        }
     }
 
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = data.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        //  fun bind(item:AgentsResponse.Agent) {
-
-        //  itemView.setOnClickListener {
-        //     Log.v("Pulso sobre", item.displayName.toString())
-
-        //  }
+        val mytexto = itemView.findViewById<TextView>(R.id.TVDatoUser)
+        fun bindItems(userData: UserResponse.Data) {
+            mytexto.text = userData.attributes.altura.toString() + " cm"
+        }
     }
-
-
 }
+
+
+
 

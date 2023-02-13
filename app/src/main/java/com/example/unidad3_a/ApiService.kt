@@ -28,8 +28,8 @@ interface ApiService {
 
     @GET("usuarios2")
     fun getUser(
-        @Query("filters[id]") id: Int
-    ): Call<UserResponse.Data>
+        @Query("filters[id]") id: String
+    ): Call<UserResponse>
 
 
     @GET("rutinas2?populate=*")

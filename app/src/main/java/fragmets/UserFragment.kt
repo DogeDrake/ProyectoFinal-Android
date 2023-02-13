@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recycleviewdemo1.HomeDatosAdapter
+import com.example.recycleviewdemo1.MainAdapter
 import com.example.unidad3_a.ApiRest
 import com.example.unidad3_a.R
+import com.example.unidad3_a.RutinaPopulateResponse
 import com.example.unidad3_a.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,6 +22,9 @@ import retrofit2.Response
 
 
 class UserFragment : Fragment() {
+    private lateinit var adapter: UserInfoAdapter
+    var datos: ArrayList<UserResponse.Data> = ArrayList()
+    val TAG = "MainActivity"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -66,36 +72,49 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-        (activity as? AppCompatActivity)?.supportActionBar?.title = "Perfil De Usuario"
-
-        var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
-        rvUserInfo.layoutManager = GridLayoutManager(context, 2)
-        rvUserInfo.adapter = UserInfoAdapter()
-
         //Copiar esto para recibir id del usuario desde cualquier fragment
         val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val value = sharedPreferences?.getString("user", "-1")
+        getUser(value!!)
+        setHasOptionsMenu(true)
+        (activity as? AppCompatActivity)?.supportActionBar?.title = "Perfil De Usuario"
+
+
+        adapter = UserInfoAdapter(datos) {
+        }
+
+
+        var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
+        rvUserInfo.layoutManager = GridLayoutManager(context, 2)
+        rvUserInfo.adapter = adapter
 
 
     }
 
-    private fun getUser(id: Int) {
+    private fun getUser(id: String) {
 
         val call = ApiRest.service.getUser(id)
-        call.enqueue(object : Callback<UserResponse.Data> {
+        call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
-                call: Call<UserResponse.Data>,
-                response: Response<UserResponse.Data>
+                call: Call<UserResponse>,
+                response: Response<UserResponse>
             ) {
                 val body = response.body()
                 if (response.isSuccessful && body != null) {
-                    body.attributes
+                    datos.clear()
+                    datos.addAll(body.data)
+                    Log.i(TAG, datos.toString())
+                    for (a in datos) {
+                        Log.i(TAG, "entroooo!!!!")
+
+                    }
+                    adapter?.notifyDataSetChanged()
+                    // Imprimir aqui el listado con logs
 
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse.Data>, t: Throwable) {
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
 
             }
         })
