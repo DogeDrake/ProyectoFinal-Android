@@ -15,7 +15,6 @@ import com.example.unidad3_a.R
 import com.example.unidad3_a.RutinaPopulateResponse
 
 
-
 class HomeDetailFragment : Fragment() {
     private lateinit var adapter2: HomeDatosAdapter
     override fun onCreateView(
@@ -37,7 +36,7 @@ class HomeDetailFragment : Fragment() {
                     RutinaPopulateResponse.Data::class.java
                 ) as? RutinaPopulateResponse.Data
             } else {
-                arguments?.getSerializable("usuarios") as?  RutinaPopulateResponse.Data
+                arguments?.getSerializable("usuarios") as? RutinaPopulateResponse.Data
             }
 
         adapter2 = HomeDatosAdapter(usuario!!.attributes.ejercicios.data) {
