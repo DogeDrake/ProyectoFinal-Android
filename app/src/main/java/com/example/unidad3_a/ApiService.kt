@@ -1,6 +1,7 @@
 package com.example.unidad3_a
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -17,7 +18,8 @@ interface ApiService {
     @GET("rutinas2?populate=*")
     fun getUserRutinesPopualte(
     ): Call<RutinaPopulateResponse>
-//potater
+
+    //potater
     @GET("ejercicios2")
     fun getEjercicios(
     ): Call<EjerciciosResponse>
@@ -37,5 +39,6 @@ interface ApiService {
         @Query("filters[id]") id: String
     ): Call<RutinaPopulateResponse>
 
-
+    @PUT("my-endpoint")
+    suspend fun updateData(@Body data: UserResponse.Data): Response<UserResponse.Data>
 }

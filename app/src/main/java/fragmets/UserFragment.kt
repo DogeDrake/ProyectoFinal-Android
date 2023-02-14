@@ -5,16 +5,14 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recycleviewdemo1.HomeDatosAdapter
-import com.example.recycleviewdemo1.MainAdapter
 import com.example.unidad3_a.ApiRest
 import com.example.unidad3_a.R
-import com.example.unidad3_a.RutinaPopulateResponse
 import com.example.unidad3_a.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,7 +21,8 @@ import retrofit2.Response
 
 class UserFragment : Fragment() {
     private lateinit var adapter: UserInfoAdapter
-    var datos: ArrayList<UserResponse.Data> = ArrayList()
+    var datos: ArrayList<String> = arrayListOf("-", "-", "-", "-", "-")
+  //  var username: String = ""
     val TAG = "MainActivity"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -80,14 +79,15 @@ class UserFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = "Perfil De Usuario"
 
 
-        adapter = UserInfoAdapter(datos) {
-        }
+        adapter = UserInfoAdapter(datos)
 
 
         var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
         rvUserInfo.layoutManager = GridLayoutManager(context, 2)
         rvUserInfo.adapter = adapter
 
+        var tvUsername = view.findViewById<TextView>(R.id.textView)
+       // tvUsername.text = username
 
     }
 
@@ -102,10 +102,15 @@ class UserFragment : Fragment() {
                 val body = response.body()
                 if (response.isSuccessful && body != null) {
                     datos.clear()
-                    datos.addAll(body.data)
+                    datos.add(body.data[0].attributes.altura.toString())
+                    datos.add(body.data[0].attributes.peso.toString())
+                    datos.add(body.data[0].attributes.imc.toString())
+                    datos.add(body.data[0].attributes.nacimiento)
+
+
                     Log.i(TAG, datos.toString())
                     for (a in datos) {
-                        Log.i(TAG, "entroooo!!!!")
+                        Log.i(TAG, "entroooo!!!!$a")
 
                     }
                     adapter?.notifyDataSetChanged()
