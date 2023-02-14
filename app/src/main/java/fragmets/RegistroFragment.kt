@@ -12,9 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.example.unidad3_a.ApiRest
-import com.example.unidad3_a.R
-import com.example.unidad3_a.UserResponse
+import com.example.unidad3_a.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
@@ -29,6 +27,11 @@ class RegistroFragment : Fragment() {
     var datos: ArrayList<UserResponse.Data> = ArrayList()
     val username = mutableListOf<String>()
     var idUser = ""
+    lateinit var correo: String
+    lateinit var nombre: String
+    lateinit var apellido: String
+    lateinit var fecha: String
+    lateinit var contraseña: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,15 +47,15 @@ class RegistroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ApiRest.initService()
-        getUsers()
+        Log.i("MainActivity", username.toString())
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.isVisible = false
         view?.findViewById<Button>(R.id.btHome)?.setOnClickListener {
             view.findViewById<TextView>(R.id.txtErrorRegistro).text = ""
-            val nombre = view.findViewById<EditText>(R.id.txtNombre).text.toString()
-            val apellido = view.findViewById<EditText>(R.id.txtApellido).text.toString()
-            val fecha = view.findViewById<EditText>(R.id.etDate).text.toString()
-            val correo = view.findViewById<EditText>(R.id.txtMail).text.toString()
-            val contraseña = (view.findViewById<EditText>(R.id.txtPassword).text.toString())
+             nombre = view.findViewById<EditText>(R.id.txtNombre).text.toString()
+             apellido = view.findViewById<EditText>(R.id.txtApellido).text.toString()
+             fecha = view.findViewById<EditText>(R.id.etDate).text.toString()
+            correo = view.findViewById<EditText>(R.id.txtMail).text.toString()
+             contraseña = (view.findViewById<EditText>(R.id.txtPassword).text.toString())
             view.findViewById<TextInputLayout>(R.id.edtPassErr)
                 .setEndIconMode(END_ICON_PASSWORD_TOGGLE)
             if (nombre == "" || apellido == "" || fecha == "" || correo == "" || contraseña == ""
@@ -70,11 +73,12 @@ class RegistroFragment : Fragment() {
                 view.findViewById<TextInputLayout>(R.id.edtPassErr).setEndIconMode(END_ICON_NONE)
                 view.findViewById<TextView>(R.id.txtPassword).error =
                     "Contraseña debe tener al menos 7 caracteres, una mayuscula, una minuscula y un caracter especial"
-            } else if (!isEmailValid(correo) || correo in username) {
+            } else if (!isEmailValid(correo)) {
                 view.findViewById<TextView>(R.id.txtMail).error =
-                    "Formato de correo incorrecto o correo ya existente"
+                    "Formato de correo incorrecto "
 
             } else {
+                meterUser()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.container, LoginFragment())?.commit()
             }
@@ -113,34 +117,27 @@ class RegistroFragment : Fragment() {
 
     }
 
-    private fun getUsers() {
 
-        val call = ApiRest.service.getUsers()
-        call.enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+    private fun meterUser(){
+        val crearUser = ApiService.DatosRegister(correo, contraseña,fecha,apellido,nombre)
+        val call = ApiRest.service.meterUser(crearUser)
+        call.enqueue(object : Callback<RegistroResponse>{
+            override fun onResponse(call: Call<RegistroResponse>, response: Response<RegistroResponse>) {
+                // maneja la respuesta exitosa aquí
                 val body = response.body()
-                if (response.isSuccessful && body != null) {
-                    Log.i(TAG, body.toString())
-                    datos.clear()
-                    datos.addAll(body.data)
-                    for (a in datos) {
-                        Log.i(TAG, "entroooo!!!!")
-                        username.add(a.attributes.email)
-                        username.add(a.attributes.contrasena)
-                        username.add(a.id.toString())
-                    }
+                if (response.isSuccessful && body != null){
+                    var registroResponse = response.body()
+                    print(registroResponse)
+                }else{
 
-                    Log.d(TAG, username.toString())
-                    // Imprimir aqui el listado con logs
-                } else {
-                    Log.e(TAG, response.errorBody()?.string() ?: "Porto")
+                    Log.e(TAG, response.errorBody()?.toString()?: "Error")
+                    view?.findViewById<TextView>(R.id.txtMail)?.error = response.errorBody()?.toString()
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Log.e(TAG, t.message.toString())
+            override fun onFailure(call: Call<RegistroResponse>, t: Throwable) {
+                TODO("Not yet implemented")
             }
         })
-
     }
 }

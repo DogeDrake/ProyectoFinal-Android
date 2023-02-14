@@ -12,9 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.example.unidad3_a.ApiRest
-import com.example.unidad3_a.R
-import com.example.unidad3_a.UserResponse
+import com.example.unidad3_a.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,6 +23,8 @@ class LoginFragment : Fragment() {
     var datos: ArrayList<UserResponse.Data> = ArrayList()
     val username = mutableListOf<String>()
     var idUser = ""
+    lateinit var correo:String
+    lateinit var contasena:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,15 +44,16 @@ class LoginFragment : Fragment() {
         getUsers()
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.isVisible = false
         view.findViewById<Button>(R.id.btIrHome).setOnClickListener {
-            var correo = view.findViewById<EditText>(R.id.txtCorreoLogIn).text
-            var contasena = view.findViewById<EditText>(R.id.txtContraseñaLogIn).text
-            if (correo.toString() == "" || (contasena.toString()) == "") {
+             correo = view.findViewById<EditText>(R.id.txtCorreoLogIn).text.toString()
+             contasena = view.findViewById<EditText>(R.id.txtContraseñaLogIn).text.toString()
+            if (correo == "" || (contasena) == "") {
                 view.findViewById<TextView>(R.id.txtError).text = "RELLENE TODOS LOS CAMPOS"
             } else {
-                if (correo.toString() in username) {
-                    val indexUser = username.indexOf(correo.toString())
+                if (correo in username) {
+                    val indexUser = username.indexOf(correo)
                     Log.d(TAG, username[indexUser + 1])
-                    if ((contasena.toString()).equals(username[indexUser + 1])) {
+                    if ((contasena).equals(username[indexUser + 1])) {
+                        //loginUser()
                         idUser = username[indexUser + 2]
                         val sharedPreferences =
                             context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
@@ -121,5 +122,27 @@ class LoginFragment : Fragment() {
             }
         })
 
+    }
+    private fun loginUser(){
+        val crearUser = ApiService.DatosLogin(correo, contasena)
+        val call = ApiRest.service.loginUser(crearUser)
+        call.enqueue(object : Callback<LoginResponse>{
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                // maneja la respuesta exitosa aquí
+                val body = response.body()
+                if (response.isSuccessful && body != null){
+                    var loginResponse = response.body()
+                    print(loginResponse)
+                }else{
+
+                    Log.e(TAG, response.errorBody()?.toString()?: "Error")
+                    view?.findViewById<TextView>(R.id.txtMail)?.error = response.errorBody()?.toString()
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 }
