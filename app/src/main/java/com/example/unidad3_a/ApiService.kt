@@ -32,17 +32,25 @@ interface ApiService {
     fun getUser(
         @Query("filters[id]") id: String
     ): Call<UserResponse>
+
     @POST("auth/local/register")
-        fun meterUser(
+    fun meterUser(
         @Body request: DatosRegister
-        ): Call<RegistroResponse>
+    ): Call<RegistroResponse>
+
     @POST("auth/local")
     fun loginUser(
         @Body request: DatosLogin
     ): Call<LoginResponse>
 
     data class DatosLogin(val email: String, val password: String)
-    data class DatosRegister(val email: String, val password: String, val fechaNacimiento: String, val apellidos:String, val username:String)
+    data class DatosRegister(
+        val email: String,
+        val password: String,
+        val fechaNacimiento: String,
+        val apellidos: String,
+        val username: String
+    )
 
     @GET("rutinas2?populate=*")
     fun getUserRutinesPopualteFiltroUser(
@@ -51,4 +59,7 @@ interface ApiService {
 
     @PUT("my-endpoint")
     suspend fun updateData(@Body data: UserResponse.Data): Response<UserResponse.Data>
+
+    @DELETE("usuarios2/{id}")
+    suspend fun deleteUser(@Path("id") id: String): Response<Unit>
 }

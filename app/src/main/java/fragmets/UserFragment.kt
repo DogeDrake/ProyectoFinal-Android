@@ -9,11 +9,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidad3_a.ApiRest
 import com.example.unidad3_a.R
 import com.example.unidad3_a.UserResponse
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +24,9 @@ import retrofit2.Response
 class UserFragment : Fragment() {
     private lateinit var adapter: UserInfoAdapter
     var datos: ArrayList<String> = arrayListOf("-", "-", "-", "-", "-")
-  //  var username: String = ""
+    var value: String? = "-1"
+
+    //  var username: String = ""
     val TAG = "MainActivity"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -59,12 +63,29 @@ class UserFragment : Fragment() {
     }
 
     private fun delete() {
+        lifecycleScope.launch {
+            try {
+                val response = ApiRest.service.deleteUser(value!!)
+                if (response.isSuccessful) {
+                    Log.d(tag, "Delete Successful")
+                    Toast.makeText(context, "Cuenta Eliminada", Toast.LENGTH_SHORT).show()
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.container, LoginFragment())?.commit()
+                } else {
+                    Log.d(tag, "Delete Failed")
+                }
+            } catch (e: Exception) {
+                Log.e(tag, "Error deleting user", e)
+            }
+        }
         Log.d(tag, "Delete Clicked")
         Toast.makeText(context, "Cuenta Eliminada", Toast.LENGTH_SHORT).show()
     }
 
     private fun logout() {
-        Log.d(tag, "Edit Clicked")
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.container, LoginFragment())?.commit()
+        Log.d(tag, "Log out Clicked")
         Toast.makeText(context, "Cuenta Cerrada", Toast.LENGTH_SHORT).show()
     }
 
@@ -73,7 +94,8 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //Copiar esto para recibir id del usuario desde cualquier fragment
         val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        val value = sharedPreferences?.getString("user", "-1")
+        value = sharedPreferences?.getString("user", "-1")
+
         getUser(value!!)
         setHasOptionsMenu(true)
         (activity as? AppCompatActivity)?.supportActionBar?.title = "Perfil De Usuario"
@@ -87,7 +109,7 @@ class UserFragment : Fragment() {
         rvUserInfo.adapter = adapter
 
         var tvUsername = view.findViewById<TextView>(R.id.textView)
-       // tvUsername.text = username
+        // tvUsername.text = username
 
     }
 

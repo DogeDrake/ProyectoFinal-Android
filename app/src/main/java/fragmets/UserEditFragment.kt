@@ -1,19 +1,23 @@
 package fragmets
 
 import Adapters.UserEditAdapter
-import Adapters.UserInfoAdapter
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.unidad3_a.ApiRest
 import com.example.unidad3_a.R
+import kotlinx.coroutines.launch
 
 
 class UserEditFragment : Fragment() {
+    var value: String? = "-1"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +52,21 @@ class UserEditFragment : Fragment() {
     }
 
     private fun delete() {
+
+        lifecycleScope.launch {
+            try {
+                val response = ApiRest.service.deleteUser(value!!)
+                if (response.isSuccessful) {
+                    Log.d(tag, "Delete Successful")
+                    Toast.makeText(context, "Cuenta Eliminada", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.d(tag, "Delete Failed")
+                }
+            } catch (e: Exception) {
+                Log.e(tag, "Error deleting user", e)
+            }
+        }
+
         Log.d(tag, "Delete Clicked")
         Toast.makeText(context, "Cuenta Eliminada", Toast.LENGTH_SHORT).show()
     }
@@ -63,9 +82,15 @@ class UserEditFragment : Fragment() {
         setHasOptionsMenu(true)
         (activity as? AppCompatActivity)?.supportActionBar?.title = "Perfil De Usuario"
 
+        val sharedPreferences = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        value = sharedPreferences?.getString("user", "-1")
+        Log.i("IDUSER", value.toString())
+
         var rvUserInfo = view.findViewById<RecyclerView>(R.id.rvUsersInfo)
         rvUserInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rvUserInfo.adapter = UserEditAdapter()
 
+
     }
+
 }
