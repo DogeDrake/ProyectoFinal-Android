@@ -108,7 +108,9 @@ class UserFragment : Fragment() {
         rvUserInfo.layoutManager = GridLayoutManager(context, 2)
         rvUserInfo.adapter = adapter
 
-        var tvUsername = view.findViewById<TextView>(R.id.textView)
+        var tvUsername = view.findViewById<TextView>(R.id.UserTextView)
+
+
         // tvUsername.text = username
 
     }
@@ -133,7 +135,6 @@ class UserFragment : Fragment() {
                     Log.i(TAG, datos.toString())
                     for (a in datos) {
                         Log.i(TAG, "entroooo!!!!$a")
-
                     }
                     adapter?.notifyDataSetChanged()
                     // Imprimir aqui el listado con logs
