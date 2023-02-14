@@ -1,10 +1,14 @@
 package com.example.unidad3_a
 
+import android.content.Context
 import fragmets.AddFragment
 import fragmets.HomeeFragment
 import fragmets.UserFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.Menu
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -14,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.unidad3_a.databinding.ActivityMainBinding
 import fragmets.LoginFragment
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,11 +41,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
     //metodo de cambio de vista entre fragments
     private fun replaceFragment(fragment: Fragment) {
-
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)

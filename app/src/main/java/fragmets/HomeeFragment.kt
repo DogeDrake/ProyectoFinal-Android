@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidad3_a.R
-
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.recycleviewdemo1.MainAdapter
@@ -17,6 +16,7 @@ import com.example.unidad3_a.RutinaPopulateResponse
 import com.example.unidad3_a.UserRutinasResponse
 import retrofit2.Call
 import retrofit2.Callback
+import androidx.appcompat.widget.SearchView;
 import retrofit2.Response
 
 
@@ -67,6 +67,20 @@ class HomeeFragment : Fragment() {
         mainRecyclerView?.adapter = adapter
 
 
+        val SV = view.findViewById<androidx.appcompat.widget.SearchView>(R.id.svSearch)
+
+        SV.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter(newText.orEmpty())
+                return true
+            }
+        })
+
+
     }
 
     private fun getUserRutinesPopualte() {
@@ -88,6 +102,7 @@ class HomeeFragment : Fragment() {
                         //InfoRutinas.add(a.attributes.publishedAt)
                     }
                     adapter?.notifyDataSetChanged()
+                    adapter.filter("")
                     Log.d(TAG, InfoRutinas.toString())
                     // Imprimir aqui el listado con logs
                 } else {

@@ -11,10 +11,14 @@ import com.example.unidad3_a.UserRutinasResponse
 
 
 class MainAdapter(
-    private val mDataSet: List<RutinaPopulateResponse.Data>,
+    private var mDataSet: List<RutinaPopulateResponse.Data>,
     val OnClick: (RutinaPopulateResponse.Data) -> Unit
 ) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+
+    private var mDataFiltered: MutableList<RutinaPopulateResponse.Data> = ArrayList(mDataSet)
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_list_view, parent, false)
         return MainViewHolder(v)
@@ -29,8 +33,26 @@ class MainAdapter(
         }
     }
 
+    fun filter(text: String) {
+        mDataFiltered.clear()
+        if (text.isEmpty()) {
+            mDataFiltered.addAll(mDataSet)
+        } else {
+            val search = text.lowercase()
+
+            for (item in mDataSet) {
+                if (item.attributes.titulorutina.lowercase().contains(search)) {
+                    mDataFiltered.add(item)
+                }
+            }
+        }
+
+        notifyDataSetChanged()
+    }
+
+
     override fun getItemCount(): Int {
-        return mDataSet.size
+        return mDataFiltered.size
     }
 
     inner class MainViewHolder(var v: View) : RecyclerView.ViewHolder(v) {
